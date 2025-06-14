@@ -20,8 +20,13 @@
         background-color: #0004;
      } */
       #table2 td{
-        background-color: #0003;
+        background-color: #0001;
       } 
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 2px;
+    }
     textarea{
       border-radius: 5px;
       margin: 2px;
@@ -38,15 +43,23 @@
 </head>
 <body>
     <h1>Web Options Order Comparator</h1>
-    <textarea name="" id="web_options" rows="10" cols="20" onchange="fillTable()">
+    <p>
+        Fill your web options in first box and the web options you want to compare in second box.<br>
+        You can directly paste two columns from excel or type as COLLGE CODE,BRANCH CODE in each line.
+    </p>
+    <textarea name="" id="web_options" rows="10" cols="20">
 JNTH,CSM
-JNTH,CSE</textarea>
+,CSE
+CBIT    CSE
+    INF</textarea>
     <textarea name="" id="clg_options" rows="10" cols="20">CBIT,ECE
 JNTH,CSE</textarea>
+        <br>
     <button onclick='fillTable()'>Compare</button>
+    <h3>Positions order comparison:</h3>
     <table id="table">
     </table>
-    <h3>Missing</h3>
+    <h3>Missing in 1</h3>
     <table id="table2">
     </table>
   <script>
@@ -56,8 +69,8 @@ JNTH,CSE</textarea>
         var rows = optionsText.split('\n')
         var table = document.getElementById('table');
         var table2 = document.getElementById('table2');
-        table.innerHTML = '';
-        table2.innerHTML = '';
+        table.innerHTML = '<tr><th>In 1</th><th>College</th><th>Branch</th><th>In 2</th><th>Difference</th></tr>';
+        table2.innerHTML = '<tr><th>In 1</th><th>College</th><th>Branch</th><th>In 2</th></tr>';
         console.log('filling table');
         var clg = 'Unknown';
         var webOpt = {};
