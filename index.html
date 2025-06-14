@@ -10,142 +10,38 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="Compare Web Options">
-  <style>
-    /* tr{
-        border: 6px solid black;
-        border-collapse: separate;
-        background: gray;
-    } */
-     /* td:nth-child(4){
-        background-color: #0004;
-     } */
-      #table2 td{
-        background-color: #0001;
-      } 
-    table, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        padding: 2px;
-    }
-    textarea{
-      border-radius: 5px;
-      margin: 2px;
-    }
-    button{
-      background: #3872c6;
-      color: whitesmoke;
-      border: none;
-      border-radius: 5px;
-      padding: 5px;
-      margin: 2px;
-    }
-  </style>
+  <link href="https://cdn.jsdelivr.net/gh/tofsjonas/sortable@latest/dist/sortable.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
     <h1>Web Options Order Comparator</h1>
+    <p>If you find some issue send an email to kadapallanithin@gmail.com</p>
     <p>
         Fill your web options in first box and the web options you want to compare in second box.<br>
-        You can directly paste two columns from excel or type as COLLGE CODE,BRANCH CODE in each line.
+        You can directly paste two columns from excel or type as COLLGE CODE,BRANCH CODE in each line.<br>
+        Change max rows to adjust the size of input boxes (textarea).
     </p>
-    <textarea name="" id="web_options" rows="10" cols="20">
-JNTH,CSM
+    <div id="input_container">
+        Max rows:
+        <input type="number" id="max_rows" placeholder="20" value="20" onchange="updateMaxRows()" /><button>Change</button>
+        <p></p>
+        <textarea name="" id="web_options" rows="10" cols="20">JNTH,CSM
 ,CSE
 CBIT    CSE
     INF</textarea>
-    <textarea name="" id="clg_options" rows="10" cols="20">CBIT,ECE
-JNTH,CSE</textarea>
-        <br>
-    <button onclick='fillTable()'>Compare</button>
+        <textarea name="" id="clg_options" rows="10" cols="20">CBIT,ECE
+JNTH,ECE</textarea>
+        <p></p>
+        <button onclick='fillTable()'>Compare</button>    
+    </div>
+    <p>Tables can be sorted by clicking on the heading</p>
     <h3>Positions order comparison:</h3>
-    <table id="table">
+    <table id="table" class="sortable">
     </table>
     <h3>Missing in 1</h3>
-    <table id="table2">
+    <table id="table2" class="sortable">
     </table>
-  <script>
-    function fillTable(){
-        var optionsText = document.getElementById('web_options').value;
-        var clg_options = document.getElementById('clg_options').value.split('\n');
-        var rows = optionsText.split('\n')
-        var table = document.getElementById('table');
-        var table2 = document.getElementById('table2');
-        table.innerHTML = '<tr><th>In 1</th><th>College</th><th>Branch</th><th>In 2</th><th>Difference</th></tr>';
-        table2.innerHTML = '<tr><th>In 1</th><th>College</th><th>Branch</th><th>In 2</th></tr>';
-        console.log('filling table');
-        var clg = 'Unknown';
-        var webOpt = {};
-        for(var ci in clg_options){
-            var row = clg_options[ci];
-            var cols;
-            if(row.indexOf('\t') != -1){
-                cols = row.split('\t');
-            }else{
-                cols = row.split(',');
-            }
-            if(cols.length == 2){
-                if(!cols[0]){
-                    cols[0] = clg;
-                }else{
-                    clg = cols[0];
-                }
-                var clg = cols[0];
-                var brn = cols[1];
-                if(webOpt[clg] == undefined){
-                    webOpt[clg] = {};
-                }
-                if(webOpt[clg][brn] == undefined){
-                    webOpt[clg][brn] = ['-','-'];
-                }
-                webOpt[clg][brn][0] = parseInt(ci)+1;
-            }else{
-                console.log(ci,'missed ci',row);
-            }
-        }
-
-        for(var ri in rows){
-            var row = rows[ri];
-            var cols;
-            if(row.indexOf('\t') != -1){
-                cols = row.split('\t');
-            }else{
-                cols = row.split(',');
-            }
-            if(cols.length == 2){
-                if(!cols[0]){
-                    cols[0] = clg;
-                }else{
-                    clg = cols[0];
-                }
-                var brn = cols[1];
-                if(webOpt[clg] == undefined){
-                    webOpt[clg] = {};
-                }
-                if(webOpt[clg][brn] == undefined){
-                    webOpt[clg][brn] = ['-','-'];
-                }
-                webOpt[clg][brn][1] = parseInt(ri)+1;
-                var pos = webOpt[clg][brn][0];
-                var pos1 = webOpt[clg][brn][1];
-                var pdiff = (pos-pos1);
-                // pdiff = Math.round(pdiff*100);
-                table.innerHTML += '<tr><td>'+pos1+'</td><td>'+clg+'</td><td>'+brn+'</td><td>'+pos+'</td><td>'+pdiff+'</td></tr>';
-            }else{
-                console.log(ri,'missed',row);
-            }
-        }
-
-        for(clg in webOpt){
-            var clgInfo = webOpt[clg];
-            for(var brn in clgInfo){
-                var pos = clgInfo[brn];
-                if(pos[1] == '-' ){//pos[0] == '-' || 
-                    table2.innerHTML += '<tr><td>'+pos[1]+'</td><td>'+clg+'</td><td>'+brn+'</td><td>'+pos[0]+'</td></tr>';
-                }
-                console.log(clg,brn,clgInfo[brn]);
-            }
-        }
-    }
-    fillTable()
-  </script>
+    <script src="https://cdn.jsdelivr.net/gh/tofsjonas/sortable@latest/dist/sortable.min.js"></script>
+    <script src="assets/script.js"></script>
 </body>
 </html>

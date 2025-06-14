@@ -1,0 +1,43 @@
+@media print {
+    #input_container{
+        padding: 5px;
+        border: 1px solid #3872c666;
+        border-radius: 5px;
+    }
+    
+}
+/* tr{
+    border: 6px solid black;
+    border-collapse: separate;
+    background: gray;
+} */
+ /* td:nth-child(4){
+    background-color: #0004;
+ } */
+  /* #table2 td{
+    background-color: #0001;
+  } 
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 2px;
+} */
+.sortable td, .sortable th{
+    padding: 5px;
+}
+
+textarea{
+  border-radius: 5px;
+  margin: 2px;
+}
+textarea {
+    vertical-align:top;
+}
+button{
+  background: #3872c6;
+  color: whitesmoke;
+  border: 1px solid #3872c666;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 2px;
+}
